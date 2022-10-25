@@ -1,5 +1,4 @@
 import pygame.sprite
-
 import Colors
 
 
@@ -11,4 +10,5 @@ class Mario(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (Colors.WIDTH / 2, Colors.HEIGHT / 2)
 
-
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
