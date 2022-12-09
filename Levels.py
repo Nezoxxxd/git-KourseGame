@@ -16,6 +16,11 @@ class Platform(pygame.sprite.Sprite):
         self.rect = pygame.Rect(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT)
 
 
+class DieBlock(Platform):
+    def __init__(self, x, y):
+        Platform.__init__(self, x, y)
+        self.image = pygame.image.load(r"C:\GitRepos\git-KourseGame\images\dieBlock.png")
+
 level1 = [
     "--------------------------------------------------",
     "-                                                -",
@@ -29,12 +34,12 @@ level1 = [
     "-                                                -",
     "-                              ----              -",
     "-                                                -",
-    "-          ----                                  -",
+    "-          ----                        *         -",
     "-                       -----                    -",
     "-                                                -",
     "-     ------------                               -",
     "-                                                -",
-    "-                      --              ----      -",
+    "-                      --        *     ----      -",
     "-                           --                   -",
     "-                                                -",
     "-                                                -",

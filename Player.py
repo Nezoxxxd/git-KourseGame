@@ -1,6 +1,7 @@
 import pygame.sprite
 import pyganim
 import Colors
+import Levels
 
 SPEED_MOVE = 7
 JUMP_POWER = 10
@@ -33,6 +34,8 @@ CHARACTER_STOP = [('images/Mario/0.png', 1)]
 class Mario(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)  # Инициализатор встроенных классов Sprite
+        self.startX = 40
+        self.startY = 40
         self.xvel = 0  # скорость перемещения по горизонтали
         self.yvel = 0  # скорость перемещения по вертикали
         self.GroundPosition = False  # на земеле или нет
@@ -142,3 +145,14 @@ class Mario(pygame.sprite.Sprite):
                 if yvel < 0:  # если движется вверх
                     self.rect.top = platf.rect.bottom  # то не движется вверх
                     self.yvel = 0  # и энергия прыжка пропадает
+
+                if isinstance(platf, Levels.DieBlock):
+                    self.die()
+
+    def die(self):
+        pygame.time.wait(100)
+        self.teleporting(self.startX, self.startY)
+
+    def teleporting(self, goX, goY):
+        self.rect.x = goX
+        self.rect.y = goY
