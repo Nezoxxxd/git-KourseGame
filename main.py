@@ -4,6 +4,7 @@ import Colors
 from ScreenSettings import gameScreen
 from Player import Mario
 import Levels
+import Camera
 
 
 def main():
@@ -11,19 +12,22 @@ def main():
 
     x = 0
     y = 0
-    # mario = Mario(64, Colors.HEIGHT - 64)
     mario = Mario(64, 64)
-    screen = gameScreen
+    screen = gameScreen # переменная из файла ScreenSettings
     timer = pygame.time.Clock()
-    up = True
 
     sprites = pygame.sprite.Group()
     platforms = []
     sprites.add(mario)
 
+    total_level_width = len(Levels.level1[0]*Levels.PLATFORM_WIDTH)
+    total_level_heigth = len(Levels.level1*Levels.PLATFORM_HEIGHT)
+
+    camera = Camera.Camera(Camera.camera_configure, total_level_width,total_level_heigth)
+
     for row in Levels.level1:
         for col in row:
-            if col != " ":
+            if col == "-":
                 # создаем блок, заливаем его цветом и рисеум его
                 platf = Levels.Platform(x, y)
                 sprites.add(platf)
@@ -40,8 +44,11 @@ def main():
             if event.type == pygame.QUIT:
                 sys.exit(0)
 
-        mario.update(up, platforms)
-        sprites.draw(screen)  # отрисовка всего
+        mario.update(platforms)
+        camera.update(mario)    # центризируем камеру относительно персонажа
+        # sprites.draw(screen)  # отрисовка всего
+        for e in sprites:
+            screen.blit(e.image, camera.apply(e))
 
         pygame.display.update()
 

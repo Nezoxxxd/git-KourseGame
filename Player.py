@@ -62,7 +62,7 @@ class Mario(pygame.sprite.Sprite):
         self.persAnimJump = pyganim.PygAnimation(CHARACTER_JUMP)
         self.persAnimJump.play()
 
-    def update(self, up, platforms):
+    def update(self, platforms):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
             self.xvel = -SPEED_MOVE
