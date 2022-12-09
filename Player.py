@@ -8,6 +8,10 @@ GRAVITY = 0.35
 WIDTH = 32
 HEIGHT = 32
 
+MOVE_EXTRA_SPEED = 2.5  # Укорение
+JUMP_EXTRA_POWER = 1  # доп сила прыжка
+ANIMATION_SUPER_SPEED_DELAY = 1  # скорость смены кадров при ускорении
+
 # Переменные для анимации героя
 CHARACTER_DELAY = 1
 CHARACTER_RIGHT = ['images/Mario/r1.png',
@@ -38,16 +42,24 @@ class Mario(pygame.sprite.Sprite):
 
         self.image.set_colorkey(Colors.PURPLE)  # прозрачный фон
         persAnim = []
+        persAnimSuperSpeed = []
         for anim in CHARACTER_RIGHT:
             persAnim.append((anim, CHARACTER_DELAY))
+            persAnimSuperSpeed.append((anim, ANIMATION_SUPER_SPEED_DELAY))
         self.persAnimRight = pyganim.PygAnimation(persAnim)
         self.persAnimRight.play()
+        self.persAnimRightSuperSpeed = pyganim.PygAnimation(persAnimSuperSpeed)
+        self.persAnimRightSuperSpeed.play()
 
         persAnim = []
+        persAnimSuperSpeed = []
         for anim in CHARACTER_LEFT:
             persAnim.append((anim, CHARACTER_DELAY))
+            persAnimSuperSpeed.append((anim, ANIMATION_SUPER_SPEED_DELAY))
         self.persAnimLeft = pyganim.PygAnimation(persAnim)
         self.persAnimLeft.play()
+        self.persAnimLeftSuperSpeed = pyganim.PygAnimation(persAnimSuperSpeed)
+        self.persAnimLeftSuperSpeed.play()
 
         self.persAnimStay = pyganim.PygAnimation(CHARACTER_STOP)
         self.persAnimStay.play()
@@ -62,31 +74,43 @@ class Mario(pygame.sprite.Sprite):
         self.persAnimJump = pyganim.PygAnimation(CHARACTER_JUMP)
         self.persAnimJump.play()
 
-    def update(self, platforms):
+    def update(self, platforms, running):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
+        if keys[pygame.K_LEFT]:  # движение влево
             self.xvel = -SPEED_MOVE
             self.image.fill(Colors.PURPLE)
+            if running:
+                self.xvel -= MOVE_EXTRA_SPEED
+                if not keys[pygame.K_UP] or not keys[pygame.K_SPACE]:
+                    self.persAnimLeftSuperSpeed.blit(self.image, (0, 0))
+            else:
+                if not keys[pygame.K_UP] or not keys[pygame.K_SPACE]:
+                    self.persAnimLeft.blit(self.image, (0, 0))
             if keys[pygame.K_UP] or keys[pygame.K_SPACE]:
                 self.persAnimJumpLeft.blit(self.image, (0, 0))
-            else:
-                self.persAnimLeft.blit(self.image, (0, 0))
 
-        if keys[pygame.K_RIGHT]:
+        if keys[pygame.K_RIGHT]:  # движение вправо
             self.xvel = SPEED_MOVE
             self.image.fill(Colors.PURPLE)
+            if running:
+                self.xvel += MOVE_EXTRA_SPEED
+                if not keys[pygame.K_UP] or not keys[pygame.K_SPACE]:
+                    self.persAnimRightSuperSpeed.blit(self.image, (0, 0))
+            else:
+                if not keys[pygame.K_UP] or not keys[pygame.K_SPACE]:
+                    self.persAnimRight.blit(self.image, (0, 0))
             if keys[pygame.K_UP] or keys[pygame.K_SPACE]:
                 self.persAnimJumpRight.blit(self.image, (0, 0))
-            else:
-                self.persAnimRight.blit(self.image, (0, 0))
 
-        if keys[pygame.K_UP] or keys[pygame.K_SPACE]:
+        if keys[pygame.K_UP] or keys[pygame.K_SPACE]:  # прыжок
             if self.GroundPosition:
                 self.yvel = -JUMP_POWER
+                if running and (keys[pygame.K_RIGHT] or keys[pygame.K_LEFT]):
+                    self.yvel -= JUMP_EXTRA_POWER
             self.image.fill(Colors.PURPLE)
             self.persAnimJump.blit(self.image, (0, 0))
 
-        if not (keys[pygame.K_LEFT] or keys[pygame.K_RIGHT]):
+        if not (keys[pygame.K_LEFT] or keys[pygame.K_RIGHT]):  # стоим на месте
             self.xvel = 0
             if not (keys[pygame.K_UP] or keys[pygame.K_SPACE]):
                 self.image.fill(Colors.PURPLE)

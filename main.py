@@ -36,6 +36,8 @@ def main():
         y += Levels.PLATFORM_HEIGHT
         x = 0
 
+    running = False
+
     while True:
         timer.tick(Colors.FPS)  # ограничение на количество кадров в секунду
         screen.fill(Colors.WHITE)
@@ -44,7 +46,14 @@ def main():
             if event.type == pygame.QUIT:
                 sys.exit(0)
 
-        mario.update(platforms)
+        keys = pygame.key.get_pressed()
+        # обработка shift - для ускоренного движения
+        if keys[pygame.K_LSHIFT]:
+            running = True
+        if not keys[pygame.K_LSHIFT]:
+            running = False
+
+        mario.update(platforms, running)
         camera.update(mario)    # центризируем камеру относительно персонажа
         # sprites.draw(screen)  # отрисовка всего
         for e in sprites:
