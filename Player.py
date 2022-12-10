@@ -1,7 +1,10 @@
+import sys
+
 import pygame.sprite
 import pyganim
 import Colors
 import Levels
+from ScreenSettings import gameScreen
 
 SPEED_MOVE = 7
 JUMP_POWER = 10
@@ -36,6 +39,8 @@ class Mario(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)  # Инициализатор встроенных классов Sprite
         self.startX = 40
         self.startY = 40
+        self.health = 2
+        # self.balance = 0
         self.xvel = 0  # скорость перемещения по горизонтали
         self.yvel = 0  # скорость перемещения по вертикали
         self.GroundPosition = False  # на земеле или нет
@@ -149,10 +154,25 @@ class Mario(pygame.sprite.Sprite):
                 if isinstance(platf, Levels.DieBlock):
                     self.die()
 
+                # if isinstance(platf, Levels.Coins):
+                #     pass
+
     def die(self):
         pygame.time.wait(100)
+        if self.health == 0:
+            g_over = pygame.font.SysFont('microsofttaile', 50)
+            game_over = 'GAME OVER'
+            follow = g_over.render(game_over, True, Colors.BLACK)
+            gameScreen.blit(follow, (Colors.WIDTH/2-100, Colors.HEIGHT/2-50))
+            pygame.display.update()
+            pygame.time.wait(200)
+            sys.exit(-1)
+        self.health -= 1
         self.teleporting(self.startX, self.startY)
 
     def teleporting(self, goX, goY):
         self.rect.x = goX
         self.rect.y = goY
+
+    # def coins_collect(self):
+    #     self.balance += 10

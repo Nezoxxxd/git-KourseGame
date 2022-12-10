@@ -10,8 +10,7 @@ import Camera
 def main():
     pygame.init()
 
-    x = 0
-    y = 0
+    x, y = 0, 0
     mario = Mario(64, 64)
     screen = gameScreen  # переменная из файла ScreenSettings
     timer = pygame.time.Clock()
@@ -25,6 +24,10 @@ def main():
 
     camera = Camera.Camera(Camera.camera_configure, total_level_width, total_level_heigth)
 
+    health_font = pygame.font.SysFont('microsofttaile', 20)
+    health_string = f'Health: {mario.health + 1}'
+    follow = health_font.render(health_string, True, Colors.BLACK)
+
     for row in Levels.level1:
         for col in row:
             if col == "-":
@@ -36,6 +39,10 @@ def main():
                 bd = Levels.DieBlock(x, y)
                 sprites.add(bd)
                 platforms.append(bd)
+            # if col == "c":
+            #     coin = Levels.Coins(x,y)
+            #     sprites.add(coin)
+            #     platforms.append(coin)
             x += Levels.PLATFORM_WIDTH
         y += Levels.PLATFORM_HEIGHT
         x = 0
@@ -63,6 +70,9 @@ def main():
         for e in sprites:
             screen.blit(e.image, camera.apply(e))
 
+        health_string = f'Health: {mario.health + 1}'
+        follow = health_font.render(health_string, True, Colors.BLACK)
+        screen.blit(follow, (1150, 50))
         pygame.display.update()
 
 

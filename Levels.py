@@ -21,11 +21,20 @@ class DieBlock(Platform):
         Platform.__init__(self, x, y)
         self.image = pygame.image.load(r"C:\GitRepos\git-KourseGame\images\dieBlock.png")
 
+
+# class Coins(pygame.sprite.Sprite):
+#     def __init__(self, x, y):
+#         pygame.sprite.Sprite.__init__(self)
+#         self.image = pygame.Surface((20, 20))
+#         self.rect = pygame.Rect(x, y, 20, 20)
+#         self.image.fill(Colors.PURPLE, self.rect)
+
+
 level1 = [
     "--------------------------------------------------",
     "-                                                -",
     "-                                                -",
-    "-                                                -",
+    "-            *                                   -",
     "-                                ----            -",
     "-                                                -",
     "-                   ---                          -",
@@ -42,5 +51,5 @@ level1 = [
     "-                      --        *     ----      -",
     "-                           --                   -",
     "-                                                -",
-    "-                                                -",
+    "-     c                                          -",
     "--------------------------------------------------"]
