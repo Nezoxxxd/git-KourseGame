@@ -13,7 +13,7 @@ WIDTH = 32
 HEIGHT = 32
 
 MOVE_EXTRA_SPEED = 2.5  # Укорение
-JUMP_EXTRA_POWER = 1  # доп сила прыжка
+JUMP_EXTRA_POWER = 3  # доп сила прыжка
 ANIMATION_SUPER_SPEED_DELAY = 1  # скорость смены кадров при ускорении
 
 # Переменные для анимации героя
@@ -40,10 +40,10 @@ class Mario(pygame.sprite.Sprite):
         self.startX = 40
         self.startY = 40
         self.health = 2
-        # self.balance = 0
         self.xvel = 0  # скорость перемещения по горизонтали
         self.yvel = 0  # скорость перемещения по вертикали
         self.GroundPosition = False  # на земеле или нет
+        self.win = False    # еще не спас принцессу
         self.image = pygame.Surface((WIDTH, HEIGHT))
         self.image.fill(Colors.PURPLE)
         self.rect = pygame.Rect(x, y, WIDTH, HEIGHT)
@@ -154,18 +154,14 @@ class Mario(pygame.sprite.Sprite):
                 if isinstance(platf, Levels.DieBlock):
                     self.die()
 
-                # if isinstance(platf, Levels.Coins):
-                #     pass
+                elif isinstance(platf, Levels.Princes):
+                    self.win = True
+                    message('LEVEL PASSED!')
 
     def die(self):
         pygame.time.wait(100)
         if self.health == 0:
-            g_over = pygame.font.SysFont('microsofttaile', 50)
-            game_over = 'GAME OVER'
-            follow = g_over.render(game_over, True, Colors.BLACK)
-            gameScreen.blit(follow, (Colors.WIDTH/2-100, Colors.HEIGHT/2-50))
-            pygame.display.update()
-            pygame.time.wait(200)
+            message('GAME OVER')
             sys.exit(-1)
         self.health -= 1
         self.teleporting(self.startX, self.startY)
@@ -174,5 +170,11 @@ class Mario(pygame.sprite.Sprite):
         self.rect.x = goX
         self.rect.y = goY
 
-    # def coins_collect(self):
-    #     self.balance += 10
+
+def message(message_text):
+    text_font = pygame.font.SysFont('Times-New-Roman', 50)
+    text = message_text
+    follow = text_font.render(text, True, Colors.BLACK)
+    gameScreen.blit(follow, (Colors.WIDTH / 2 - 150, Colors.HEIGHT / 2 - 50))
+    pygame.display.update()
+    pygame.time.wait(1000)

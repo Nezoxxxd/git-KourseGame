@@ -17,17 +17,16 @@ class Platform(pygame.sprite.Sprite):
 
 
 class DieBlock(Platform):
-    def __init__(self, x, y):
+    def __init__(self, x, y, path):
         Platform.__init__(self, x, y)
-        self.image = pygame.image.load(r"C:\GitRepos\git-KourseGame\images\dieBlock.png")
+        self.image = pygame.image.load(path)
 
-
-# class Coins(pygame.sprite.Sprite):
-#     def __init__(self, x, y):
-#         pygame.sprite.Sprite.__init__(self)
-#         self.image = pygame.Surface((20, 20))
-#         self.rect = pygame.Rect(x, y, 20, 20)
-#         self.image.fill(Colors.PURPLE, self.rect)
+class Princes(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((21, 34))
+        self.image = pygame.image.load(r"C:\GitRepos\git-KourseGame\images\Princess\princess.png")
+        self.rect = pygame.Rect(x, y, 21, 34)
 
 
 level1 = [
@@ -45,11 +44,11 @@ level1 = [
     "-                                                -",
     "-          ----                        *         -",
     "-                       -----                    -",
-    "-                                                -",
+    "-              M                                 -",
     "-     ------------                               -",
-    "-                                                -",
+    "-                                        P       -",
     "-                      --        *     ----      -",
     "-                           --                   -",
     "-                                                -",
-    "-     c                                          -",
-    "--------------------------------------------------"]
+    "-                                                -",
+    "-------------ssss---------------------------------"]

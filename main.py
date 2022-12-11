@@ -24,9 +24,9 @@ def main():
 
     camera = Camera.Camera(Camera.camera_configure, total_level_width, total_level_heigth)
 
-    health_font = pygame.font.SysFont('microsofttaile', 20)
-    health_string = f'Health: {mario.health + 1}'
-    follow = health_font.render(health_string, True, Colors.BLACK)
+    health_font = pygame.font.SysFont('Times-New-Roman', 20)
+    health = pygame.image.load(r'C:\GitRepos\git-KourseGame\images\heart.png')
+
 
     for row in Levels.level1:
         for col in row:
@@ -36,13 +36,17 @@ def main():
                 sprites.add(platf)
                 platforms.append(platf)
             if col == "*":
-                bd = Levels.DieBlock(x, y)
+                bd = Levels.DieBlock(x, y, r"C:\GitRepos\git-KourseGame\images\dieBlock.png")
                 sprites.add(bd)
                 platforms.append(bd)
-            # if col == "c":
-            #     coin = Levels.Coins(x,y)
-            #     sprites.add(coin)
-            #     platforms.append(coin)
+            if col == "s":
+                bd = Levels.DieBlock(x, y, r"C:\GitRepos\git-KourseGame\images\spikes.png")
+                sprites.add(bd)
+                platforms.append(bd)
+            if col == "P":
+                princess = Levels.Princes(x, y)
+                sprites.add(princess)
+                platforms.append(princess)
             x += Levels.PLATFORM_WIDTH
         y += Levels.PLATFORM_HEIGHT
         x = 0
@@ -73,6 +77,7 @@ def main():
         health_string = f'Health: {mario.health + 1}'
         follow = health_font.render(health_string, True, Colors.BLACK)
         screen.blit(follow, (1150, 50))
+        screen.blit(health, (1230, 50))
         pygame.display.update()
 
 
