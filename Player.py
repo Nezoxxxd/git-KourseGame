@@ -1,9 +1,9 @@
 import sys
-
 import pygame.sprite
 import pyganim
 import Colors
 import Levels
+import Menu
 from ScreenSettings import gameScreen
 
 SPEED_MOVE = 7
@@ -18,20 +18,20 @@ ANIMATION_SUPER_SPEED_DELAY = 1  # скорость смены кадров пр
 
 # Переменные для анимации героя
 CHARACTER_DELAY = 1
-CHARACTER_RIGHT = ['images/Mario/r1.png',
-                   'images/Mario/r2.png',
-                   'images/Mario/r3.png',
-                   'images/Mario/r4.png',
-                   'images/Mario/r5.png']
-CHARACTER_LEFT = ['images/Mario/l1.png',
-                  'images/Mario/l2.png',
-                  'images/Mario/l3.png',
-                  'images/Mario/l4.png',
-                  'images/Mario/l5.png']
-CHARACTER_JUMP_LEFT = [('images/Mario/jl.png', 1)]
-CHARACTER_JUMP_RIGHT = [('images/Mario/jr.png', 1)]
-CHARACTER_JUMP = [('images/Mario/j.png', 1)]
-CHARACTER_STOP = [('images/Mario/0.png', 1)]
+CHARACTER_RIGHT = ['images/Mario/1/r1.png',
+                   'images/Mario/1/r2.png',
+                   'images/Mario/1/r3.png',
+                   'images/Mario/1/r4.png',
+                   'images/Mario/1/r5.png']
+CHARACTER_LEFT = ['images/Mario/1/l1.png',
+                  'images/Mario/1/l2.png',
+                  'images/Mario/1/l3.png',
+                  'images/Mario/1/l4.png',
+                  'images/Mario/1/l5.png']
+CHARACTER_JUMP_LEFT = [('images/Mario/1/jl.png', 1)]
+CHARACTER_JUMP_RIGHT = [('images/Mario/1/jr.png', 1)]
+CHARACTER_JUMP = [('images/Mario/1/j.png', 1)]
+CHARACTER_STOP = [('images/Mario/1/0.png', 1)]
 
 
 class Mario(pygame.sprite.Sprite):
@@ -157,6 +157,7 @@ class Mario(pygame.sprite.Sprite):
                 elif isinstance(platf, Levels.Princes):
                     self.win = True
                     message('LEVEL PASSED!')
+                    Menu.menu()
 
     def die(self):
         pygame.time.wait(100)

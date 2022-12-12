@@ -32,9 +32,22 @@ def main():
 
     for row in Levels.level1:
         for col in row:
-            if col == "-":
+            if col == "-" or col == "_":
                 # создаем блок, заливаем его цветом и рисеум его
-                platf = Levels.Platform(x, y)
+                # choice = random.randrange(0, len(blocks_img))
+                path = r'images/blocks/block.png'
+                if col == "_":
+                    path = r'images/blocks/block1.png'
+                platf = Levels.Platform(x, y, path)
+                sprites.add(platf)
+                platforms.append(platf)
+            if col == "|" or col == "=":
+                # создаем блок, заливаем его цветом и рисеум его
+                # choice = random.randrange(0, len(blocks_img))
+                path = r'images/blocks/block3.png'
+                if col == "=":
+                    path = r'images/blocks/block2.png'
+                platf = Levels.Platform(x, y, path)
                 sprites.add(platf)
                 platforms.append(platf)
             if col == "*":
@@ -84,5 +97,5 @@ def main():
 
 
 if __name__ == "__main__":
-    Menu.menu(main)
-
+    # Menu.menu(main)
+    Menu.menu()

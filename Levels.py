@@ -8,17 +8,19 @@ PLATFORM_HEIGHT = 32
 PLATFORM_COLOR = Colors.BLACK
 
 
+# r"C:\GitRepos\git-KourseGame\images\block.png"
+
 class Platform(pygame.sprite.Sprite):
-    def __init__(self, x, y):
+    def __init__(self, x, y, image_path):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
-        self.image = pygame.image.load(r"C:\GitRepos\git-KourseGame\images\block.png")
+        self.image = pygame.image.load(image_path)
         self.rect = pygame.Rect(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT)
 
 
 class DieBlock(Platform):
     def __init__(self, x, y, path):
-        Platform.__init__(self, x, y)
+        Platform.__init__(self, x, y, path)
         self.image = pygame.image.load(path)
 
 
@@ -45,11 +47,12 @@ level1 = [
     "-                                                -",
     "-          ----                        *         -",
     "-                       -----                    -",
-    "-              M                                 -",
-    "-     ------------                               -",
+    "-                                                -",
+    "-     --___-------                               -",
     "-                                        P       -",
-    "-                      --        *     ----      -",
+    "-                      __        *     ----      -",
     "-                           --                   -",
     "-                                                -",
-    "-                                                -",
-    "-------------ssss---------------------------------"]
+    "-          =                                     -",
+    "-          |                                     -",
+    "--____-------ssss-------___________---------------"]
