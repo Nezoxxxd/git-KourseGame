@@ -43,7 +43,7 @@ class Mario(pygame.sprite.Sprite):
         self.xvel = 0  # скорость перемещения по горизонтали
         self.yvel = 0  # скорость перемещения по вертикали
         self.GroundPosition = False  # на земеле или нет
-        self.win = False    # еще не спас принцессу
+        self.win = False  # еще не спас принцессу
         self.image = pygame.Surface((WIDTH, HEIGHT))
         self.image.fill(Colors.PURPLE)
         self.rect = pygame.Rect(x, y, WIDTH, HEIGHT)

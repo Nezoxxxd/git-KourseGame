@@ -1,14 +1,17 @@
 import pygame
 import sys
 import Colors
+import Menu
 from ScreenSettings import gameScreen
 from Player import Mario
 import Levels
 import Camera
 
+pygame.init()
+
 
 def main():
-    pygame.init()
+    # pygame.init()
 
     x, y = 0, 0
     mario = Mario(64, 64)
@@ -26,7 +29,6 @@ def main():
 
     health_font = pygame.font.SysFont('Times-New-Roman', 20)
     health = pygame.image.load(r'C:\GitRepos\git-KourseGame\images\heart.png')
-
 
     for row in Levels.level1:
         for col in row:
@@ -76,10 +78,11 @@ def main():
 
         health_string = f'Health: {mario.health + 1}'
         follow = health_font.render(health_string, True, Colors.BLACK)
-        screen.blit(follow, (1150, 50))
-        screen.blit(health, (1230, 50))
+        screen.blit(follow, (1140, 50))
+        screen.blit(health, (1220, 50))
         pygame.display.update()
 
 
 if __name__ == "__main__":
-    main()
+    Menu.menu(main)
+

@@ -21,6 +21,7 @@ class DieBlock(Platform):
         Platform.__init__(self, x, y)
         self.image = pygame.image.load(path)
 
+
 class Princes(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
