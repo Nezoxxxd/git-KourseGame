@@ -43,7 +43,6 @@ def main():
                 platforms.append(platf)
             if col == "|" or col == "=":
                 # создаем блок, заливаем его цветом и рисеум его
-                # choice = random.randrange(0, len(blocks_img))
                 path = r'images/blocks/block3.png'
                 if col == "=":
                     path = r'images/blocks/block2.png'
@@ -51,7 +50,7 @@ def main():
                 sprites.add(platf)
                 platforms.append(platf)
             if col == "*":
-                bd = Levels.DieBlock(x, y, r"C:\GitRepos\git-KourseGame\images\dieBlock.png")
+                bd = Levels.DieBlock(x, y, r'images/blocks/dieBlock.png')
                 sprites.add(bd)
                 platforms.append(bd)
             if col == "s":
@@ -67,12 +66,20 @@ def main():
         x = 0
 
     running = False
+    game_pause = False
+
+    resume_img = pygame.image.load(r'images/buttons/resume.png').convert_alpha()
+    resume_button = Menu.Button(512, 320, resume_img)
 
     while True:
         timer.tick(Colors.FPS)  # ограничение на количество кадров в секунду
         screen.fill(Colors.WHITE)
 
         for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    game_pause = True
+                    print('esc')
             if event.type == pygame.QUIT:
                 sys.exit(0)
 
@@ -93,9 +100,16 @@ def main():
         follow = health_font.render(health_string, True, Colors.BLACK)
         screen.blit(follow, (1140, 50))
         screen.blit(health, (1220, 50))
+
+        if game_pause:
+            if resume_button.draw():
+                game_pause = False
+        else:
+            # Menu.draw_text("Press ESCAPE to pause", font,Colors.BLUE, 512, 360)
+            pass
+
         pygame.display.update()
 
 
 if __name__ == "__main__":
-    # Menu.menu(main)
     Menu.menu()

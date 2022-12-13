@@ -4,9 +4,9 @@ import pyganim
 import Colors
 import Levels
 import Menu
-from ScreenSettings import gameScreen
+import ScreenSettings
 
-SPEED_MOVE = 7
+SPEED_MOVE = 5
 JUMP_POWER = 10
 GRAVITY = 0.35
 WIDTH = 32
@@ -17,6 +17,7 @@ JUMP_EXTRA_POWER = 3  # доп сила прыжка
 ANIMATION_SUPER_SPEED_DELAY = 1  # скорость смены кадров при ускорении
 
 # Переменные для анимации героя
+SKIN_NUMBER = 1
 CHARACTER_DELAY = 1
 CHARACTER_RIGHT = ['images/Mario/1/r1.png',
                    'images/Mario/1/r2.png',
@@ -156,13 +157,20 @@ class Mario(pygame.sprite.Sprite):
 
                 elif isinstance(platf, Levels.Princes):
                     self.win = True
-                    message('LEVEL PASSED!')
+                    # message('LEVEL PASSED!', Colors.BLACK)
+                    end_bg = pygame.image.load(r'images/backgrounds/level_passed.jpg')
+                    ScreenSettings.gameScreen.blit(end_bg, (0, 0))
+                    pygame.display.update()
+                    pygame.time.wait(1500)
                     Menu.menu()
 
     def die(self):
         pygame.time.wait(100)
         if self.health == 0:
-            message('GAME OVER')
+            end_bg = pygame.image.load(r'images/backgrounds/background_end.jpg')
+            ScreenSettings.gameScreen.blit(end_bg, (0, 0))
+            pygame.display.update()
+            pygame.time.wait(1500)
             sys.exit(-1)
         self.health -= 1
         self.teleporting(self.startX, self.startY)
@@ -170,12 +178,3 @@ class Mario(pygame.sprite.Sprite):
     def teleporting(self, goX, goY):
         self.rect.x = goX
         self.rect.y = goY
-
-
-def message(message_text):
-    text_font = pygame.font.SysFont('Times-New-Roman', 50)
-    text = message_text
-    follow = text_font.render(text, True, Colors.BLACK)
-    gameScreen.blit(follow, (Colors.WIDTH / 2 - 150, Colors.HEIGHT / 2 - 50))
-    pygame.display.update()
-    pygame.time.wait(1000)
