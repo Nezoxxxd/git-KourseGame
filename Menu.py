@@ -9,10 +9,13 @@ def menu():
     menu_background.blit(menu_background, (0, 0))
 
     start_img = pygame.image.load(r'images/buttons/start.png').convert_alpha()
-    start_button = Button(512, 320, start_img)
+    start_button = Button(512, 220, start_img)
+
+    skins_img = pygame.image.load(r'images/buttons/skins.png').convert_alpha()
+    skins_button = Button(512, 320, skins_img)
 
     exit_img = pygame.image.load(r'images/buttons/exit.png').convert_alpha()
-    exit_button = Button(512, 450, exit_img)
+    exit_button = Button(512, 420, exit_img)
 
     while True:
         for event in pygame.event.get():
@@ -23,15 +26,13 @@ def menu():
 
         if start_button.draw():
             main.main()
+        if skins_button.draw():
+            pass
         if exit_button.draw():
             sys.exit()
 
         pygame.display.update()
-        pygame.time.delay(100)
-
-
-def pause_menu():
-    pass
+        pygame.time.wait(100)
 
 
 class Button:

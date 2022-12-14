@@ -69,7 +69,16 @@ def main():
     game_pause = False
 
     resume_img = pygame.image.load(r'images/buttons/resume.png').convert_alpha()
-    resume_button = Menu.Button(512, 320, resume_img)
+    resume_btn = Menu.Button(528, 260, resume_img)
+
+    save_img = pygame.image.load(r'images/buttons/save.png').convert_alpha()
+    save_btn = Menu.Button(528, 340, save_img)
+
+    exit_img = pygame.image.load(r'images/buttons/exit.png').convert_alpha()
+    exit_btn = Menu.Button(528, 420, exit_img)
+
+    pause_img = pygame.image.load(r'images/backgrounds/background_pause.png').convert_alpha()
+    pause_rect = pause_img.get_rect(center=(Colors.WIDTH//2, Colors.HEIGHT//2))
 
     while True:
         timer.tick(Colors.FPS)  # ограничение на количество кадров в секунду
@@ -102,11 +111,14 @@ def main():
         screen.blit(health, (1220, 50))
 
         if game_pause:
-            if resume_button.draw():
+            screen.blit(pause_img, pause_rect)
+            if resume_btn.draw():
                 game_pause = False
-        else:
-            # Menu.draw_text("Press ESCAPE to pause", font,Colors.BLUE, 512, 360)
-            pass
+            if save_btn.draw():
+                pass
+            if exit_btn.draw():
+                pygame.time.wait(100)
+                Menu.menu()
 
         pygame.display.update()
 
