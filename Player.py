@@ -4,6 +4,7 @@ import pyganim
 import Colors
 import Levels
 import Menu
+import Monsters
 import ScreenSettings
 
 SPEED_MOVE = 5
@@ -17,7 +18,6 @@ JUMP_EXTRA_POWER = 3  # доп сила прыжка
 ANIMATION_SUPER_SPEED_DELAY = 1  # скорость смены кадров при ускорении
 
 # Переменные для анимации героя
-SKIN_NUMBER = 1
 CHARACTER_DELAY = 1
 CHARACTER_RIGHT = ['images/Mario/1/r1.png',
                    'images/Mario/1/r2.png',
@@ -152,7 +152,7 @@ class Mario(pygame.sprite.Sprite):
                     self.rect.top = platf.rect.bottom  # то не движется вверх
                     self.yvel = 0  # и энергия прыжка пропадает
 
-                if isinstance(platf, Levels.DieBlock):
+                if isinstance(platf, Levels.DieBlock) or isinstance(platf, Monsters.Monster):
                     self.die()
 
                 elif isinstance(platf, Levels.Princes):

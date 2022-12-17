@@ -1,3 +1,5 @@
+import random
+
 import pygame
 import sys
 import Colors
@@ -6,8 +8,11 @@ from ScreenSettings import gameScreen
 from Player import Mario
 import Levels
 import Camera
+import Monsters
 
 pygame.init()
+
+level = Levels.level1
 
 
 def main():
@@ -22,15 +27,18 @@ def main():
     platforms = []
     sprites.add(mario)
 
-    total_level_width = len(Levels.level1[0] * Levels.PLATFORM_WIDTH)
-    total_level_heigth = len(Levels.level1 * Levels.PLATFORM_HEIGHT)
+    monsters = pygame.sprite.Group()
+
+    total_level_width = len(level[0] * Levels.PLATFORM_WIDTH)
+    total_level_heigth = len(level * Levels.PLATFORM_HEIGHT)
 
     camera = Camera.Camera(Camera.camera_configure, total_level_width, total_level_heigth)
 
     health_font = pygame.font.SysFont('Times-New-Roman', 20)
     health = pygame.image.load(r'C:\GitRepos\git-KourseGame\images\heart.png')
 
-    for row in Levels.level1:
+    # for row in Levels.level1:
+    for row in level:
         for col in row:
             if col == "-" or col == "_":
                 # создаем блок, заливаем его цветом и рисеум его
@@ -54,13 +62,19 @@ def main():
                 sprites.add(bd)
                 platforms.append(bd)
             if col == "s":
-                bd = Levels.DieBlock(x, y, r"C:\GitRepos\git-KourseGame\images\spikes.png")
+                bd = Levels.DieBlock(x, y, r"C:\GitRepos\git-KourseGame\images\blocks\spikes.png")
                 sprites.add(bd)
                 platforms.append(bd)
             if col == "P":
                 princess = Levels.Princes(x, y)
                 sprites.add(princess)
                 platforms.append(princess)
+            if col == "M":
+                mn = Monsters.Monster(x, y, random.randint(0, 3), random.randint(0, 50))
+                sprites.add(mn)
+                platforms.append(mn)
+                monsters.add(mn)
+
             x += Levels.PLATFORM_WIDTH
         y += Levels.PLATFORM_HEIGHT
         x = 0
@@ -78,7 +92,7 @@ def main():
     exit_btn = Menu.Button(528, 420, exit_img)
 
     pause_img = pygame.image.load(r'images/backgrounds/background_pause.png').convert_alpha()
-    pause_rect = pause_img.get_rect(center=(Colors.WIDTH//2, Colors.HEIGHT//2))
+    pause_rect = pause_img.get_rect(center=(Colors.WIDTH // 2, Colors.HEIGHT // 2))
 
     while True:
         timer.tick(Colors.FPS)  # ограничение на количество кадров в секунду
@@ -88,7 +102,6 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     game_pause = True
-                    print('esc')
             if event.type == pygame.QUIT:
                 sys.exit(0)
 
@@ -100,6 +113,7 @@ def main():
             running = False
 
         mario.update(platforms, running)
+        monsters.update(platforms)
         camera.update(mario)  # центризируем камеру относительно персонажа
         # sprites.draw(screen)  # отрисовка всего
         for e in sprites:

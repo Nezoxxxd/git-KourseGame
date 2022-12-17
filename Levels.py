@@ -28,7 +28,7 @@ class Princes(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((21, 34))
-        self.image = pygame.image.load(r"C:\GitRepos\git-KourseGame\images\Princess\princess.png")
+        self.image = pygame.image.load(r"C:\GitRepos\git-KourseGame\images\characters\princess.png")
         self.rect = pygame.Rect(x, y, 21, 34)
 
 
@@ -54,10 +54,18 @@ level1 = [
     "-                           --                   -",
     "-                                                -",
     "-          =                                     -",
-    "-          |                                     -",
+    "-          |                      M              -",
     "-____________ssss____   _________________________-",
     "-            ----                                -",
     "-                                                -",
     "-                                                -",
-    "-                                                -",
+    "-                          M                     -",
     "--____-------ssss----______________---------------"]
+
+level2 = [
+    "------------------------------------------------------------------------------------",
+    "-                                                                                  -",
+    "-                                                                                  -",
+    "-                                                                                  -",
+    "-                                                                                  -",
+    "------------------------------------------------------------------------------------"]
