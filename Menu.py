@@ -1,6 +1,5 @@
 import sys
 import pygame
-
 import Levels
 import ScreenSettings
 import main
@@ -26,10 +25,11 @@ def menu():
 
         ScreenSettings.gameScreen.blit(menu_background, (0, 0))
 
-        if levels_button.draw():
-            levels_menu()
         if start_button.draw():
             main.main()
+        if levels_button.draw():
+            pygame.time.wait(100)
+            levels_menu()
         if exit_button.draw():
             sys.exit()
 
@@ -63,7 +63,7 @@ def levels_menu():
             menu()
         if level2_button.draw():
             main.level = Levels.level2
-            # pygame.time.wait(100)
+            pygame.time.wait(100)
             menu()
         if back_button.draw():
             pygame.time.wait(100)

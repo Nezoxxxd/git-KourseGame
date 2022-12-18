@@ -1,5 +1,4 @@
 import random
-
 import pygame
 import sys
 import Colors
@@ -16,8 +15,6 @@ level = Levels.level1
 
 
 def main():
-    # pygame.init()
-
     x, y = 0, 0
     mario = Mario(64, 64)
     screen = gameScreen  # переменная из файла ScreenSettings
@@ -35,14 +32,12 @@ def main():
     camera = Camera.Camera(Camera.camera_configure, total_level_width, total_level_heigth)
 
     health_font = pygame.font.SysFont('Times-New-Roman', 20)
-    health = pygame.image.load(r'C:\GitRepos\git-KourseGame\images\heart.png')
+    health = pygame.image.load(r'images/heart.png')
 
-    # for row in Levels.level1:
     for row in level:
         for col in row:
             if col == "-" or col == "_":
                 # создаем блок, заливаем его цветом и рисеум его
-                # choice = random.randrange(0, len(blocks_img))
                 path = r'images/blocks/block.png'
                 if col == "_":
                     path = r'images/blocks/block1.png'
@@ -85,8 +80,8 @@ def main():
     resume_img = pygame.image.load(r'images/buttons/resume.png').convert_alpha()
     resume_btn = Menu.Button(528, 260, resume_img)
 
-    save_img = pygame.image.load(r'images/buttons/save.png').convert_alpha()
-    save_btn = Menu.Button(528, 340, save_img)
+    main_menu_img = pygame.image.load(r'images/buttons/main menu.png').convert_alpha()
+    main_menu_btn = Menu.Button(528, 340, main_menu_img)
 
     exit_img = pygame.image.load(r'images/buttons/exit.png').convert_alpha()
     exit_btn = Menu.Button(528, 420, exit_img)
@@ -105,8 +100,8 @@ def main():
             if event.type == pygame.QUIT:
                 sys.exit(0)
 
-        keys = pygame.key.get_pressed()
         # обработка shift - для ускоренного движения
+        keys = pygame.key.get_pressed()
         if keys[pygame.K_LSHIFT]:
             running = True
         if not keys[pygame.K_LSHIFT]:
@@ -128,11 +123,11 @@ def main():
             screen.blit(pause_img, pause_rect)
             if resume_btn.draw():
                 game_pause = False
-            if save_btn.draw():
-                pass
-            if exit_btn.draw():
+            if main_menu_btn.draw():
                 pygame.time.wait(100)
                 Menu.menu()
+            if exit_btn.draw():
+                sys.exit(0)
 
         pygame.display.update()
 

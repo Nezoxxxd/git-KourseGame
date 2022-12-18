@@ -157,7 +157,9 @@ class Mario(pygame.sprite.Sprite):
 
                 elif isinstance(platf, Levels.Princes):
                     self.win = True
-                    # message('LEVEL PASSED!', Colors.BLACK)
+                    # pygame.mixer.music.load(f"music/win.mp3")
+                    # pygame.mixer.music.play(loops=0)
+                    # pygame.time.wait(5000)
                     end_bg = pygame.image.load(r'images/backgrounds/level_passed.jpg')
                     ScreenSettings.gameScreen.blit(end_bg, (0, 0))
                     pygame.display.update()
@@ -165,7 +167,7 @@ class Mario(pygame.sprite.Sprite):
                     Menu.menu()
 
     def die(self):
-        pygame.time.wait(100)
+        pygame.time.wait(200)
         if self.health == 0:
             end_bg = pygame.image.load(r'images/backgrounds/background_end.jpg')
             ScreenSettings.gameScreen.blit(end_bg, (0, 0))
@@ -173,8 +175,12 @@ class Mario(pygame.sprite.Sprite):
             pygame.time.wait(1500)
             sys.exit(-1)
         self.health -= 1
-        self.teleporting(self.startX, self.startY)
 
-    def teleporting(self, goX, goY):
-        self.rect.x = goX
-        self.rect.y = goY
+        self.startX = self.rect.x
+        self.startY = self.rect.y
+
+        self.teleporting(self.startX, self.startY-200)
+
+    def teleporting(self, go_x, go_y):
+        self.rect.x = go_x
+        self.rect.y = go_y

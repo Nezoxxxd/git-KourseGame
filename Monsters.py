@@ -1,6 +1,5 @@
 import pygame
 import pyganim
-
 import Colors
 
 MONSTER_WIDTH = 32
@@ -36,7 +35,6 @@ class Monster(pygame.sprite.Sprite):
         self.monsterAnim.blit(self.image, (0, 0))
 
         self.rect.x += self.xvel
-
         self.collide(platforms)
 
         if abs(self.startX - self.rect.x) > self.maxLengthLeft:

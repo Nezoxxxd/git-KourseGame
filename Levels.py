@@ -1,5 +1,4 @@
 import pygame.sprite
-
 import Colors
 import pygame
 
@@ -7,8 +6,6 @@ PLATFORM_WIDTH = 32
 PLATFORM_HEIGHT = 32
 PLATFORM_COLOR = Colors.BLACK
 
-
-# r"C:\GitRepos\git-KourseGame\images\block.png"
 
 class Platform(pygame.sprite.Sprite):
     def __init__(self, x, y, image_path):
@@ -28,7 +25,7 @@ class Princes(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((21, 34))
-        self.image = pygame.image.load(r"C:\GitRepos\git-KourseGame\images\characters\princess.png")
+        self.image = pygame.image.load(r"images/characters/princess.png")
         self.rect = pygame.Rect(x, y, 21, 34)
 
 
@@ -60,12 +57,30 @@ level1 = [
     "-                                                -",
     "-                                                -",
     "-                          M                     -",
-    "--____-------ssss----______________---------------"]
+    "-____________ssss________________________________-"]
 
 level2 = [
-    "------------------------------------------------------------------------------------",
-    "-                                                                                  -",
-    "-                                                                                  -",
-    "-                                                                                  -",
-    "-                                                                                  -",
-    "------------------------------------------------------------------------------------"]
+       "----------------------------------",
+       "-                                -",
+       "-                       --       -",
+       "-        *                       -",
+       "-                                -",
+       "-            --                  -",
+       "--                               -",
+       "-                                -",
+       "-                   ----     --- -",
+       "-                                -",
+       "--                               -",
+       "-            *                   -",
+       "-                            --- -",
+       "-                                -",
+       "-                                -",
+       "-  *   ---                  *    -",
+       "-                                -",
+       "-   -------         ----         -",
+       "-                                -",
+       "-                         -      -",
+       "-                            --  -",
+       "-           ***                  -",
+       "-                                -",
+       "----------------------------------"]
