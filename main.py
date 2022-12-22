@@ -1,4 +1,3 @@
-import random
 import pygame
 import sys
 import Colors
@@ -7,11 +6,14 @@ from ScreenSettings import gameScreen
 from Player import Mario
 import Levels
 import Camera
-import Monsters
 
 pygame.init()
 
 level = Levels.level1
+menu_sound = pygame.mixer.Sound(r"music/Menu music.wav")
+menu_sound.set_volume(0.4)
+pygame.mixer.music.load(r'music/mouse_click.mp3')
+pygame.mixer.music.set_volume(1)
 
 
 def main():
@@ -34,45 +36,8 @@ def main():
     health_font = pygame.font.SysFont('Times-New-Roman', 20)
     health = pygame.image.load(r'images/heart.png')
 
-    for row in level:
-        for col in row:
-            if col == "-" or col == "_":
-                # создаем блок, заливаем его цветом и рисеум его
-                path = r'images/blocks/block.png'
-                if col == "_":
-                    path = r'images/blocks/block1.png'
-                platf = Levels.Platform(x, y, path)
-                sprites.add(platf)
-                platforms.append(platf)
-            if col == "|" or col == "=":
-                # создаем блок, заливаем его цветом и рисеум его
-                path = r'images/blocks/block3.png'
-                if col == "=":
-                    path = r'images/blocks/block2.png'
-                platf = Levels.Platform(x, y, path)
-                sprites.add(platf)
-                platforms.append(platf)
-            if col == "*":
-                bd = Levels.DieBlock(x, y, r'images/blocks/dieBlock.png')
-                sprites.add(bd)
-                platforms.append(bd)
-            if col == "s":
-                bd = Levels.DieBlock(x, y, r"C:\GitRepos\git-KourseGame\images\blocks\spikes.png")
-                sprites.add(bd)
-                platforms.append(bd)
-            if col == "P":
-                princess = Levels.Princes(x, y)
-                sprites.add(princess)
-                platforms.append(princess)
-            if col == "M":
-                mn = Monsters.Monster(x, y, random.randint(0, 3), random.randint(0, 50))
-                sprites.add(mn)
-                platforms.append(mn)
-                monsters.add(mn)
-
-            x += Levels.PLATFORM_WIDTH
-        y += Levels.PLATFORM_HEIGHT
-        x = 0
+    # функция генерации уровня
+    Levels.level_create(level, x, y, platforms, sprites, monsters)
 
     running = False
     game_pause = False
@@ -89,9 +54,15 @@ def main():
     pause_img = pygame.image.load(r'images/backgrounds/background_pause.png').convert_alpha()
     pause_rect = pause_img.get_rect(center=(Colors.WIDTH // 2, Colors.HEIGHT // 2))
 
+    # bg = pygame.image.load(r'images/backgrounds/level_background.jpg')
+
+    Menu.menu_sound.stop()
+    menu_sound.play()
+
     while True:
         timer.tick(Colors.FPS)  # ограничение на количество кадров в секунду
-        screen.fill(Colors.WHITE)
+        screen.fill(Colors.SKY)
+        # screen.blit(bg, (0, 0))
 
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
@@ -125,6 +96,7 @@ def main():
                 game_pause = False
             if main_menu_btn.draw():
                 pygame.time.wait(100)
+                menu_sound.stop()
                 Menu.menu()
             if exit_btn.draw():
                 sys.exit(0)

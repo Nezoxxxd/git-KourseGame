@@ -6,11 +6,13 @@ import Levels
 import Menu
 import Monsters
 import ScreenSettings
+import main
 
 SPEED_MOVE = 5
 JUMP_POWER = 10
 GRAVITY = 0.35
-WIDTH = 32
+# WIDTH = 32
+WIDTH = 25
 HEIGHT = 32
 
 MOVE_EXTRA_SPEED = 2.5  # Укорение
@@ -40,14 +42,16 @@ class Mario(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)  # Инициализатор встроенных классов Sprite
         self.startX = 40
         self.startY = 40
-        self.health = 2
+        self.health = 9
         self.xvel = 0  # скорость перемещения по горизонтали
         self.yvel = 0  # скорость перемещения по вертикали
         self.GroundPosition = False  # на земеле или нет
-        self.win = False  # еще не спас принцессу
         self.image = pygame.Surface((WIDTH, HEIGHT))
         self.image.fill(Colors.PURPLE)
         self.rect = pygame.Rect(x, y, WIDTH, HEIGHT)
+        self.jump = pygame.mixer.Sound(r'music/jump.wav')
+        self.win = pygame.mixer.Sound(r'music/win.wav')  # еще не спас принцессу
+        self.dead = pygame.mixer.Sound(r'music/dead.wav')
 
         self.image.set_colorkey(Colors.PURPLE)  # прозрачный фон
         persAnim = []
@@ -116,6 +120,7 @@ class Mario(pygame.sprite.Sprite):
                 self.yvel = -JUMP_POWER
                 if running and (keys[pygame.K_RIGHT] or keys[pygame.K_LEFT]):
                     self.yvel -= JUMP_EXTRA_POWER
+                self.jump.play()
             self.image.fill(Colors.PURPLE)
             self.persAnimJump.blit(self.image, (0, 0))
 
@@ -124,6 +129,10 @@ class Mario(pygame.sprite.Sprite):
             if not (keys[pygame.K_UP] or keys[pygame.K_SPACE]):
                 self.image.fill(Colors.PURPLE)
                 self.persAnimStay.blit(self.image, (0, 0))
+
+        if keys[pygame.K_LCTRL] and keys[pygame.K_s]:
+            self.startX = self.rect.x
+            self.startY = self.rect.y
 
         if not self.GroundPosition:
             self.yvel += GRAVITY
@@ -156,10 +165,9 @@ class Mario(pygame.sprite.Sprite):
                     self.die()
 
                 elif isinstance(platf, Levels.Princes):
-                    self.win = True
-                    # pygame.mixer.music.load(f"music/win.mp3")
-                    # pygame.mixer.music.play(loops=0)
-                    # pygame.time.wait(5000)
+                    main.menu_sound.stop()
+                    self.win.play()
+                    pygame.time.wait(4000)
                     end_bg = pygame.image.load(r'images/backgrounds/level_passed.jpg')
                     ScreenSettings.gameScreen.blit(end_bg, (0, 0))
                     pygame.display.update()
@@ -167,19 +175,18 @@ class Mario(pygame.sprite.Sprite):
                     Menu.menu()
 
     def die(self):
-        pygame.time.wait(200)
         if self.health == 0:
+            main.menu_sound.stop()
+            self.dead.play()
+            pygame.time.wait(1000)
             end_bg = pygame.image.load(r'images/backgrounds/background_end.jpg')
             ScreenSettings.gameScreen.blit(end_bg, (0, 0))
             pygame.display.update()
-            pygame.time.wait(1500)
+            pygame.time.wait(2000)
             sys.exit(-1)
         self.health -= 1
 
-        self.startX = self.rect.x
-        self.startY = self.rect.y
-
-        self.teleporting(self.startX, self.startY-200)
+        self.teleporting(self.startX, self.startY)
 
     def teleporting(self, go_x, go_y):
         self.rect.x = go_x
